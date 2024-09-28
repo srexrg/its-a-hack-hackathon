@@ -14,6 +14,7 @@ const DeliveryTimeEstimator = () => {
   const [uniqueValues, setUniqueValues] = useState({});
   const [isDataUploaded, setIsDataUploaded] = useState(false);
   const [explanation, setExplanation] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchUniqueValues();
@@ -21,6 +22,8 @@ const DeliveryTimeEstimator = () => {
 
   const fetchUniqueValues = async () => {
     try {
+
+      if(!isDataUploaded) return;
       const response = await axios.get("http://localhost:8000/unique-values");
       setUniqueValues(response.data);
     } catch (error) {
@@ -34,6 +37,7 @@ const DeliveryTimeEstimator = () => {
       toast.error("Please upload data and train the model first.");
       return;
     }
+    setIsLoading(true);
     try {
       const response = await axios.post("http://localhost:8000/predict", {
         distance: parseFloat(distance),
@@ -53,6 +57,8 @@ const DeliveryTimeEstimator = () => {
       } else {
         toast.error("Error estimating delivery time. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,9 +82,14 @@ const DeliveryTimeEstimator = () => {
 
   return (
     <section className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Delivery Time Estimator</h2>
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">
+        Delivery Time Estimator
+      </h2>
       <div className="mb-6">
-        <label htmlFor="file-upload" className="block text-lg font-medium text-gray-700 mb-2">
+        <label
+          htmlFor="file-upload"
+          className="block text-lg font-medium text-gray-700 mb-2"
+        >
           Upload CSV File
         </label>
         <input
@@ -98,7 +109,10 @@ const DeliveryTimeEstimator = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Distance input */}
         <div>
-          <label htmlFor="distance" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="distance"
+            className="block text-lg font-medium text-gray-700"
+          >
             Distance (km):
           </label>
           <input
@@ -113,7 +127,10 @@ const DeliveryTimeEstimator = () => {
         </div>
         {/* Package Size dropdown */}
         <div>
-          <label htmlFor="packageSize" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="packageSize"
+            className="block text-lg font-medium text-gray-700"
+          >
             Package Size:
           </label>
           <select
@@ -131,7 +148,10 @@ const DeliveryTimeEstimator = () => {
         </div>
         {/* Day of Week dropdown */}
         <div>
-          <label htmlFor="dayOfWeek" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="dayOfWeek"
+            className="block text-lg font-medium text-gray-700"
+          >
             Day of Order:
           </label>
           <select
@@ -141,7 +161,15 @@ const DeliveryTimeEstimator = () => {
             required
             className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
           >
-            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+            {[
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ].map((day) => (
               <option key={day} value={day}>
                 {day}
               </option>
@@ -150,7 +178,10 @@ const DeliveryTimeEstimator = () => {
         </div>
         {/* Location dropdown */}
         <div>
-          <label htmlFor="location" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="location"
+            className="block text-lg font-medium text-gray-700"
+          >
             City:
           </label>
           <select
@@ -161,16 +192,20 @@ const DeliveryTimeEstimator = () => {
             className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
           >
             <option value="">Select a city</option>
-            {uniqueValues.location && uniqueValues.location.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
+            {uniqueValues.location &&
+              uniqueValues.location.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
           </select>
         </div>
         {/* Weather Condition dropdown */}
         <div>
-          <label htmlFor="weatherCondition" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="weatherCondition"
+            className="block text-lg font-medium text-gray-700"
+          >
             Weather Condition:
           </label>
           <select
@@ -181,16 +216,20 @@ const DeliveryTimeEstimator = () => {
             className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
           >
             <option value="">Select a weather condition</option>
-            {uniqueValues.weather_condition && uniqueValues.weather_condition.map((condition) => (
-              <option key={condition} value={condition}>
-                {condition}
-              </option>
-            ))}
+            {uniqueValues.weather_condition &&
+              uniqueValues.weather_condition.map((condition) => (
+                <option key={condition} value={condition}>
+                  {condition}
+                </option>
+              ))}
           </select>
         </div>
         {/* Delivery Service dropdown */}
         <div>
-          <label htmlFor="deliveryService" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="deliveryService"
+            className="block text-lg font-medium text-gray-700"
+          >
             Delivery Service:
           </label>
           <select
@@ -201,28 +240,43 @@ const DeliveryTimeEstimator = () => {
             className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
           >
             <option value="">Select a delivery service</option>
-            {uniqueValues.delivery_service && uniqueValues.delivery_service.map((service) => (
-              <option key={service} value={service}>
-                {service}
-              </option>
-            ))}
+            {uniqueValues.delivery_service &&
+              uniqueValues.delivery_service.map((service) => (
+                <option key={service} value={service}>
+                  {service}
+                </option>
+              ))}
           </select>
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
+          disabled={isLoading}
+          className={`w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:from-teal-600 hover:to-cyan-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-teal-500 focus:ring-opacity-50 ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          Estimate Time
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-2"></div>
+              Estimating...
+            </div>
+          ) : (
+            "Estimate Time"
+          )}
         </button>
         {estimatedTime && (
           <div className="mt-6 p-4 bg-green-100 rounded-lg">
             <h3 className="text-xl font-semibold text-green-800">
               Estimated Delivery Time:
             </h3>
-            <p className="text-2xl font-bold text-green-900">{estimatedTime} Hr</p>
+            <p className="text-2xl font-bold text-green-900">
+              {estimatedTime} Hr
+            </p>
             {explanation && (
               <div className="mt-4">
-                <h4 className="text-lg font-semibold text-green-800">Explanation:</h4>
+                <h4 className="text-lg font-semibold text-green-800">
+                  Explanation:
+                </h4>
                 <p className="text-green-900">{explanation}</p>
               </div>
             )}

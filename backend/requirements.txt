@@ -3,3 +3,6 @@ numpy
 scikit-learn
 fastapi
 python-multipart
+python-dotenv
+openai
+anthropic
