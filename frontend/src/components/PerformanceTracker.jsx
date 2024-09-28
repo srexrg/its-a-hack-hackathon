@@ -1,15 +1,24 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const PerformanceTracker = ({ performanceData }) => {
-  // In a real application, you would receive this data from your backend
-  const mockPerformanceData = [
-    { date: "2023-05-01", accuracy: 85 },
-    { date: "2023-05-02", accuracy: 87 },
-    { date: "2023-05-03", accuracy: 90 },
-    { date: "2023-05-04", accuracy: 88 },
-    { date: "2023-05-05", accuracy: 92 },
-  ];
+const PerformanceTracker = () => {
+  const [performanceData, setPerformanceData] = useState([]);
+
+useEffect(() => {
+  const fetchPerformanceData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/performance");
+      setPerformanceData(response.data.accuracy_history);
+      toast.info("Performance data updated");
+    } catch (error) {
+      console.error("Error fetching performance data:", error);
+      toast.error("Error fetching performance data");
+    }
+  };
+
+  fetchPerformanceData();
+}, []);
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8">
@@ -21,7 +30,7 @@ const PerformanceTracker = ({ performanceData }) => {
           <thead className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
             <tr>
               <th className="px-6 py-4 text-left text-sm font-semibold tracking-wide">
-                Date
+                Iteration
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold tracking-wide">
                 Accuracy (%)
@@ -29,7 +38,7 @@ const PerformanceTracker = ({ performanceData }) => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {mockPerformanceData.map((data, index) => (
+            {performanceData.map((accuracy, index) => (
               <tr
                 key={index}
                 className={`${
@@ -37,10 +46,10 @@ const PerformanceTracker = ({ performanceData }) => {
                 } hover:bg-indigo-50 transition duration-150 ease-in-out`}
               >
                 <td className="px-6 py-4 whitespace-nowrap text-gray-700 font-medium">
-                  {data.date}
+                  {index + 1}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-700 font-medium">
-                  {data.accuracy}
+                  {(accuracy * 100).toFixed(2)}%
                 </td>
               </tr>
             ))}

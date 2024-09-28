@@ -1,22 +1,46 @@
 import { useState } from "react";
-
+import axios from "axios";
+import { toast } from "react-toastify";
 const HistoricalDataUpload = () => {
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    if (!file) {
-      alert("Please select a file first!");
-      return;
-    }
+const handleUpload = async () => {
+  if (!file) {
+    toast.warning("Please select a file first!");
+    return;
+  }
 
-    // Simulate successful upload
-    console.log("Uploading file:", file.name);
-    alert("File uploaded successfully!");
-  };
+  setUploading(true);
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/upload-data",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    toast.success(response.data.message);
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    if (error.response && error.response.data && error.response.data.detail) {
+      toast.error(error.response.data.detail);
+    } else {
+      toast.error("Error uploading file. Please try again.");
+    }
+  } finally {
+    setUploading(false);
+  }
+};
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8">
@@ -56,9 +80,10 @@ const HistoricalDataUpload = () => {
 
         <button
           onClick={handleUpload}
-          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
+          disabled={uploading}
+          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
         >
-          Upload Data
+          {uploading ? "Uploading..." : "Upload Data"}
         </button>
       </div>
     </section>
