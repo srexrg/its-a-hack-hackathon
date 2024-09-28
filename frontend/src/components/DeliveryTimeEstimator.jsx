@@ -2,31 +2,38 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const DeliveryTimeEstimator = () => {
   const [distance, setDistance] = useState("");
-const [packageSize, setPackageSize] = useState("Small");
-const [dayOfWeek, setDayOfWeek] = useState("Monday");
+  const [packageSize, setPackageSize] = useState("Small");
+  const [dayOfWeek, setDayOfWeek] = useState("Monday");
+  const [location, setLocation] = useState("");
+  const [weatherCondition, setWeatherCondition] = useState("");
+  const [deliveryService, setDeliveryService] = useState("");
   const [estimatedTime, setEstimatedTime] = useState(null);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post("http://localhost:8000/predict", {
-      distance: parseFloat(distance),
-      package_size: packageSize,
-      day_of_week: dayOfWeek,
-    });
-    setEstimatedTime(response.data.estimated_time);
-    toast.success("Delivery time estimated successfully!");
-  } catch (error) {
-    console.error("Error estimating delivery time:", error);
-    if (error.response && error.response.data && error.response.data.detail) {
-      toast.error(error.response.data.detail);
-    } else {
-      toast.error("Error estimating delivery time. Please try again.");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:8000/predict", {
+        distance: parseFloat(distance),
+        package_size: packageSize,
+        day_of_week: dayOfWeek,
+        location: location,
+        weather_condition: weatherCondition,
+        delivery_service: deliveryService,
+      });
+      setEstimatedTime(response.data.estimated_time);
+      toast.success("Delivery time estimated successfully!");
+    } catch (error) {
+      console.error("Error estimating delivery time:", error);
+      if (error.response && error.response.data && error.response.data.detail) {
+        toast.error(error.response.data.detail);
+      } else {
+        toast.error("Error estimating delivery time. Please try again.");
+      }
     }
-  }
-};
+  };
 
   return (
     <section className="bg-white rounded-2xl shadow-xl p-8">
@@ -35,10 +42,7 @@ const handleSubmit = async (e) => {
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label
-            htmlFor="distance"
-            className="block text-lg font-medium text-gray-700"
-          >
+          <label htmlFor="distance" className="block text-lg font-medium text-gray-700">
             Distance (km):
           </label>
           <input
@@ -52,10 +56,7 @@ const handleSubmit = async (e) => {
           />
         </div>
         <div>
-          <label
-            htmlFor="packageSize"
-            className="block text-lg font-medium text-gray-700"
-          >
+          <label htmlFor="packageSize" className="block text-lg font-medium text-gray-700">
             Package Size:
           </label>
           <select
@@ -71,10 +72,7 @@ const handleSubmit = async (e) => {
           </select>
         </div>
         <div>
-          <label
-            htmlFor="dayOfWeek"
-            className="block text-lg font-medium text-gray-700"
-          >
+          <label htmlFor="dayOfWeek" className="block text-lg font-medium text-gray-700">
             Ordered Day:
           </label>
           <select
@@ -83,20 +81,54 @@ const handleSubmit = async (e) => {
             onChange={(e) => setDayOfWeek(e.target.value)}
             className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
           >
-            {[
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday",
-            ].map((day) => (
+            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
               <option key={day} value={day}>
                 {day}
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <label htmlFor="location" className="block text-lg font-medium text-gray-700">
+            Location:
+          </label>
+          <input
+            type="text"
+            id="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            required
+            className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
+            placeholder="Enter location"
+          />
+        </div>
+        <div>
+          <label htmlFor="weatherCondition" className="block text-lg font-medium text-gray-700">
+            Weather Condition:
+          </label>
+          <input
+            type="text"
+            id="weatherCondition"
+            value={weatherCondition}
+            onChange={(e) => setWeatherCondition(e.target.value)}
+            required
+            className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
+            placeholder="Enter weather condition"
+          />
+        </div>
+        <div>
+          <label htmlFor="deliveryService" className="block text-lg font-medium text-gray-700">
+            Delivery Service:
+          </label>
+          <input
+            type="text"
+            id="deliveryService"
+            value={deliveryService}
+            onChange={(e) => setDeliveryService(e.target.value)}
+            required
+            className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-lg p-3"
+            placeholder="Enter delivery service"
+          />
         </div>
         <button
           type="submit"

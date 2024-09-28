@@ -1,16 +1,15 @@
-
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 class DeliveryTimeEstimationTool:
     def __init__(self):
         self.model = None
         self.scaler = StandardScaler()
-        self.features = ['distance', 'package_size', 'day_of_week']
+        self.features = ['distance', 'package_size', 'day_of_week', 'location', 'weather_condition', 'delivery_service']
         self.target = 'delivery_time'
         self.data = None
         self.accuracy_history = []
@@ -22,6 +21,9 @@ class DeliveryTimeEstimationTool:
         self.package_size_mapping = {
             'small': 1, 'medium': 2, 'large': 3, 'extra large': 4
         }
+        self.location_encoder = None
+        self.weather_condition_encoder = None
+        self.delivery_service_encoder = None
 
     def load_data(self, data):
         self.data = data
@@ -31,18 +33,21 @@ class DeliveryTimeEstimationTool:
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
-        # Convert date to day of week if it's not already
-        if 'day_of_week' not in self.data.columns:
-            self.data['day_of_week'] = pd.to_datetime(self.data['date'], format='%d-%m-%Y').dt.dayofweek
-        elif self.data['day_of_week'].dtype == 'object':
-            self.data['day_of_week'] = self.data['day_of_week'].str.lower().map(self.day_mapping)
-
         # Convert package_size to numeric if it's not already
         if self.data['package_size'].dtype == 'object':
-            self.data['package_size'] = self.data['package_size'].str.lower().map(self.package_size_mapping)
+            self.data['package_size'] = self.data['package_size'].astype(int)
 
         # Ensure package_size is within 1-4 range
         self.data['package_size'] = self.data['package_size'].clip(1, 4)
+
+        # Encode categorical variables
+        categorical_features = ['location', 'weather_condition', 'delivery_service']
+        for feature in categorical_features:
+            if feature not in self.data.columns:
+                raise ValueError(f"Missing required column: {feature}")
+            encoder = LabelEncoder()
+            self.data[feature] = encoder.fit_transform(self.data[feature])
+            setattr(self, f"{feature}_encoder", encoder)
 
         # Fit and transform the scaler only on the features
         self.data[self.features] = self.scaler.fit_transform(self.data[self.features])
@@ -66,7 +71,7 @@ class DeliveryTimeEstimationTool:
 
         print(f"Model trained. Current accuracy: {accuracy:.2%}")
 
-    def predict_delivery_time(self, distance, package_size, day_of_week):
+    def predict_delivery_time(self, distance, package_size, day_of_week, location, weather_condition, delivery_service):
         if not self.is_model_trained():
             raise ValueError("Model not trained. Please upload data and train the model first.")
 
@@ -90,7 +95,12 @@ class DeliveryTimeEstimationTool:
         if not isinstance(day_of_week, int) or day_of_week < 0 or day_of_week > 6:
             raise ValueError("Day of week must be an integer between 0 and 6.")
 
-        input_data = pd.DataFrame([[distance, package_size, day_of_week]], 
+        # Encode categorical variables
+        location_encoded = self.location_encoder.transform([location])[0]
+        weather_condition_encoded = self.weather_condition_encoder.transform([weather_condition])[0]
+        delivery_service_encoded = self.delivery_service_encoder.transform([delivery_service])[0]
+
+        input_data = pd.DataFrame([[distance, package_size, day_of_week, location_encoded, weather_condition_encoded, delivery_service_encoded]], 
                                   columns=self.features)
         input_data_scaled = self.scaler.transform(input_data)
         prediction = self.model.predict(input_data_scaled)[0]

@@ -24,6 +24,9 @@ class PredictionInput(BaseModel):
     distance: float
     package_size: str
     day_of_week: str
+    location: str
+    weather_condition: str
+    delivery_service: str
 
 @app.post("/upload-data")
 async def upload_data(file: UploadFile = File(...)):
@@ -32,11 +35,20 @@ async def upload_data(file: UploadFile = File(...)):
 
     try:
         contents = await file.read()
-        df = pd.read_csv(
-            StringIO(contents.decode("utf-8")),
-            parse_dates=['date'],
-            date_parser=lambda x: pd.to_datetime(x, format='%m-%d-%Y')
-        )
+        df = pd.read_csv(StringIO(contents.decode("utf-8")))
+
+        # Convert date to datetime and extract day_of_week
+        df['date'] = pd.to_datetime(df['date'], format='%m-%d-%Y')
+        df['day_of_week'] = df['date'].dt.dayofweek
+
+        # Use courier_company as delivery_service
+        df['delivery_service'] = df['courier_company']
+
+        # Ensure all required columns are present
+        required_columns = ['distance', 'package_size', 'day_of_week', 'location', 'weather_condition', 'delivery_service', 'delivery_time']
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        if missing_columns:
+            raise ValueError(f"Missing required columns: {', '.join(missing_columns)}")
 
         tool.load_data(df)
         tool.preprocess_data()
@@ -48,11 +60,11 @@ async def upload_data(file: UploadFile = File(...)):
     except pd.errors.ParserError as e:
         raise HTTPException(status_code=400, detail=f"Unable to parse the CSV file: {str(e)}")
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Value error: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         print(f"An unexpected error occurred: {str(e)}")
         print(traceback.format_exc())
-        raise HTTPException(status_code=500, detail="An unexpected error occurred while processing the file")
+        raise HTTPException(status_code=500, detail=f"An unexpected error occurred while processing the file: {str(e)}")
 
 @app.post("/predict")
 async def predict(input_data: PredictionInput):
@@ -64,7 +76,12 @@ async def predict(input_data: PredictionInput):
 
     try:
         prediction = tool.predict_delivery_time(
-            input_data.distance, input_data.package_size, input_data.day_of_week
+            input_data.distance,
+            input_data.package_size,
+            input_data.day_of_week,
+            input_data.location,
+            input_data.weather_condition,
+            input_data.delivery_service
         )
         return {"estimated_time": prediction}
     except ValueError as e:
