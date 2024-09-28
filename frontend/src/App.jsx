@@ -10,14 +10,19 @@ function App() {
   const [performanceData, setPerformanceData] = useState([]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white">
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <DeliveryTimeEstimator setEstimatedTime={setEstimatedTime} />
-          <HistoricalDataUpload />
+          {/* Enhanced card-like components */}
+          <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105 border border-gray-200 text-gray-900">
+            <DeliveryTimeEstimator setEstimatedTime={setEstimatedTime} />
+          </div>
+          <div className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105 border border-gray-200 text-gray-900">
+            <HistoricalDataUpload />
+          </div>
         </div>
-        <div className="mt-8">
+        <div className="mt-12 bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105 border border-gray-200 text-gray-900">
           <PerformanceTracker performanceData={performanceData} />
         </div>
       </main>
