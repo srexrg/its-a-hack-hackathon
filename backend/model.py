@@ -24,10 +24,16 @@ class DeliveryTimeEstimationTool:
         self.location_encoder = None
         self.weather_condition_encoder = None
         self.delivery_service_encoder = None
+        self.unique_values = {}
 
     def load_data(self, data):
         self.data = data
         print("Data loaded successfully.")
+        self._update_unique_values()
+
+    def _update_unique_values(self):
+        for feature in ['location', 'weather_condition', 'delivery_service']:
+            self.unique_values[feature] = self.data[feature].unique().tolist()
 
     def preprocess_data(self):
         if self.data is None:
@@ -109,3 +115,6 @@ class DeliveryTimeEstimationTool:
 
     def is_model_trained(self):
         return self.model is not None and self.data is not None
+
+    def get_unique_values(self):
+        return self.unique_values

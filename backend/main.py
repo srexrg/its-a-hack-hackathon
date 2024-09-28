@@ -5,8 +5,12 @@ import pandas as pd
 from io import StringIO
 import traceback
 from model import DeliveryTimeEstimationTool
+import openai
 
 app = FastAPI()
+
+# Load your OpenAI API key
+openai.api_key = "your-openai-api-key"
 
 # Add CORS middleware
 app.add_middleware(
@@ -43,6 +47,9 @@ async def upload_data(file: UploadFile = File(...)):
 
         # Use courier_company as delivery_service
         df['delivery_service'] = df['courier_company']
+
+        # Use city as location
+        df['location'] = df['city']
 
         # Ensure all required columns are present
         required_columns = ['distance', 'package_size', 'day_of_week', 'location', 'weather_condition', 'delivery_service', 'delivery_time']
@@ -90,3 +97,12 @@ async def predict(input_data: PredictionInput):
         raise HTTPException(
             status_code=500, detail=f"An unexpected error occurred: {str(e)}"
         )
+
+@app.get("/unique-values")
+async def get_unique_values():
+    if not tool.is_model_trained():
+        raise HTTPException(
+            status_code=400,
+            detail="No data has been uploaded. Please upload data and train the model first.",
+        )
+    return tool.get_unique_values()
