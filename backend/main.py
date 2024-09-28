@@ -34,7 +34,7 @@ async def upload_data(file: UploadFile = File(...)):
         contents = await file.read()
         df = pd.read_csv(
             StringIO(contents.decode("utf-8")),
-            parse_dates=['date'],  # Assume 'date' is the column name
+            parse_dates=['date'],
             date_parser=lambda x: pd.to_datetime(x, format='%m-%d-%Y')
         )
 
@@ -54,8 +54,6 @@ async def upload_data(file: UploadFile = File(...)):
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail="An unexpected error occurred while processing the file")
 
-
-@app.post("/predict")
 @app.post("/predict")
 async def predict(input_data: PredictionInput):
     if not tool.is_model_trained():

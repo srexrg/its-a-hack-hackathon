@@ -1,9 +1,4 @@
-# %% [markdown]
-# # Delivery Time Estimation Tool
-# 
-# This notebook implements a tool for estimating delivery times using a Random Forest Regressor.
 
-# %%
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -11,7 +6,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 
-# %%
 class DeliveryTimeEstimationTool:
     def __init__(self):
         self.model = None
@@ -105,17 +99,3 @@ class DeliveryTimeEstimationTool:
 
     def is_model_trained(self):
         return self.model is not None and self.data is not None
-
-    def adjust_prediction(self, prediction, adjustment_factor):
-        return prediction * adjustment_factor
-
-    def track_performance(self):
-        if not self.accuracy_history:
-            print("No performance data available yet.")
-        else:
-            print("Accuracy history:")
-            for i, acc in enumerate(self.accuracy_history):
-                print(f"Iteration {i+1}: {acc:.2%}")
-
-    def get_performance_data(self):
-        return [{"iteration": i + 1, "accuracy": acc} for i, acc in enumerate(self.accuracy_history)]

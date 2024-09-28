@@ -24,9 +24,9 @@ function App() {
             <HistoricalDataUpload />
           </div>
         </div>
-        <div className="mt-12 bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105 border border-gray-200 text-gray-900">
-          {/* <PerformanceTracker performanceData={performanceData} /> */}
-        </div>
+        {/* <div className="mt-12 bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:scale-105 border border-gray-200 text-gray-900">
+          <PerformanceTracker performanceData={performanceData} />
+        </div> */}
       </main>
       <ToastContainer position="bottom-right" />
     </div>
