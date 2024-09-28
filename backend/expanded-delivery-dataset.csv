@@ -1,0 +1,122 @@
+date,distance,package_size,delivery_time,location,state,city,courier_company,weather_condition
+01-01-2024,5.2,2,1.5,India,Maharashtra,Mumbai,SpeedPost,Rainy
+01-02-2024,128.7,4,15.8,India,Karnataka,Bangalore,BlueDart,Cloudy
+01-03-2024,0.3,1,0.2,India,Delhi,New Delhi,DelhiVery,Cold
+01-04-2024,42.6,3,6.5,India,Tamil Nadu,Chennai,DTDC,Sunny
+01-05-2024,7.9,2,1.7,India,West Bengal,Kolkata,FedEx,Foggy
+01-06-2024,235.4,4,28.2,India,Gujarat,Ahmedabad,Ekart,Clear
+01-07-2024,6.8,1,1.6,India,Telangana,Hyderabad,FirstFlight,Hot
+01-08-2024,51.3,2,7.8,India,Rajasthan,Jaipur,Delhivery,Dusty
+01-09-2024,9.5,3,2,India,Uttar Pradesh,Lucknow,IndiaPost,Cloudy
+01-10-2024,163.2,4,19.1,India,Kerala,Kochi,Aramex,Rainy
+01-11-2024,0.1,1,0.1,India,Punjab,Chandigarh,XpressBees,Clear
+01-12-2024,38.8,3,5.7,India,Madhya Pradesh,Bhopal,Gati,Sunny
+01-13-2024,6.4,1,1.5,India,Odisha,Bhubaneswar,DHL,Humid
+01-14-2024,347.9,4,41.2,India,Bihar,Patna,Shadowfax,Hot
+01-15-2024,8.7,3,1.9,India,Assam,Guwahati,Ecom Express,Rainy
+01-16-2024,72.2,4,10.5,India,Haryana,Gurugram,Safexpress,Smoggy
+01-17-2024,7.5,2,1.8,India,Jharkhand,Ranchi,Trackon,Clear
+01-18-2024,532.8,4,63,India,Chhattisgarh,Raipur,TCI Express,Sunny
+01-19-2024,0.5,1,0.3,India,Uttarakhand,Dehradun,Dotzot,Foggy
+01-20-2024,55.9,2,8.3,India,Himachal Pradesh,Shimla,Delhivery,Snowy
+01-21-2024,181.3,4,21.8,India,Goa,Panaji,BlueDart,Humid
+01-22-2024,4.7,1,1.2,India,Tripura,Agartala,SpeedPost,Rainy
+01-23-2024,29.8,3,4.6,India,Manipur,Imphal,DTDC,Cloudy
+01-24-2024,443.5,4,52.7,India,Nagaland,Kohima,FedEx,Clear
+01-25-2024,90.1,4,13,India,Sikkim,Gangtok,Ekart,Cold
+01-26-2024,0.2,1,0.1,India,Mizoram,Aizawl,FirstFlight,Sunny
+01-27-2024,36.6,3,5.5,India,Arunachal Pradesh,Itanagar,Delhivery,Foggy
+01-28-2024,605.9,4,71.4,India,Meghalaya,Shillong,IndiaPost,Rainy
+01-29-2024,68.7,4,10,India,Andhra Pradesh,Visakhapatnam,Aramex,Humid
+01-30-2024,8.4,2,1.9,India,Jammu and Kashmir,Srinagar,XpressBees,Snowy
+01-31-2024,45.5,3,7.2,India,Karnataka,Mysore,BlueDart,Cloudy
+02-01-2024,12.3,2,2.5,India,Maharashtra,Nagpur,SpeedPost,Rainy
+02-02-2024,87.1,4,13.8,India,Tamil Nadu,Coimbatore,DTDC,Sunny
+02-03-2024,0.8,1,0.3,India,Delhi,Delhi,XpressBees,Clear
+02-04-2024,96.5,3,14.5,India,Gujarat,Surat,FedEx,Humid
+02-05-2024,124.7,4,16.7,India,West Bengal,Howrah,Ekart,Foggy
+02-06-2024,37.6,2,6.4,India,Tamil Nadu,Salem,Delhivery,Dusty
+02-07-2024,210.4,4,25.9,India,Rajasthan,Udaipur,Aramex,Clear
+02-08-2024,1.4,1,0.4,India,Haryana,Faridabad,SpeedPost,Smoggy
+02-09-2024,74.5,3,11.3,India,Odisha,Cuttack,DHL,Hot
+02-10-2024,9.2,2,1.8,India,Karnataka,Hubli,DTDC,Rainy
+02-11-2024,53.8,3,8.9,India,Assam,Silchar,Ecom Express,Humid
+02-12-2024,120.3,4,16.2,India,Kerala,Thiruvananthapuram,Gati,Sunny
+02-13-2024,29.7,3,4.5,India,Tamil Nadu,Madurai,FedEx,Clear
+02-14-2024,540.6,4,63.9,India,Uttar Pradesh,Varanasi,BlueDart,Foggy
+02-15-2024,85.1,4,12.7,India,Jharkhand,Jamshedpur,TCI Express,Cloudy
+02-16-2024,16.8,2,3.2,India,Madhya Pradesh,Indore,XpressBees,Clear
+02-17-2024,201.9,4,24.5,India,Telangana,Warangal,FirstFlight,Sunny
+02-18-2024,4.1,1,1,India,Uttar Pradesh,Agra,Trackon,Cold
+02-19-2024,114.2,3,15.7,India,Gujarat,Baroda,FedEx,Humid
+02-20-2024,276.5,4,33.2,India,West Bengal,Darjeeling,Ecom Express,Cloudy
+02-21-2024,67.1,3,10,India,Maharashtra,Pune,Delhivery,Rainy
+02-22-2024,150.2,4,19.5,India,Bihar,Gaya,SpeedPost,Foggy
+02-23-2024,7.6,2,1.6,India,Rajasthan,Jodhpur,DTDC,Sunny
+02-24-2024,234.7,4,28,India,Uttar Pradesh,Allahabad,Gati,Clear
+02-25-2024,1.3,1,0.5,India,Andhra Pradesh,Vijayawada,Aramex,Humid
+02-26-2024,77.4,3,11.7,India,Himachal Pradesh,Kullu,BlueDart,Snowy
+02-27-2024,186.9,4,22.4,India,Goa,Margao,Delhivery,Humid
+02-28-2024,92.5,4,13.3,India,Madhya Pradesh,Jabalpur,Ekart,Sunny
+02-29-2024,9.8,2,2,India,Haryana,Rohtak,DHL,Foggy
+03-01-2024,61.5,3,9.3,India,Uttarakhand,Haridwar,FedEx,Cloudy
+03-02-2024,358.7,4,42.7,India,Rajasthan,Kota,TCI Express,Rainy
+03-03-2024,11.7,2,2.4,India,Maharashtra,Nashik,SpeedPost,Dusty
+03-04-2024,47.3,3,7.7,India,Uttar Pradesh,Kanpur,XpressBees,Hot
+03-05-2024,12.9,2,2.6,India,Assam,Dibrugarh,Ecom Express,Rainy
+03-06-2024,105.3,4,14.9,India,Kerala,Kozhikode,DTDC,Humid
+03-07-2024,29.2,3,4.4,India,Punjab,Ludhiana,BlueDart,Sunny
+03-08-2024,490.1,4,58.4,India,Tamil Nadu,Tiruchirappalli,Aramex,Foggy
+03-09-2024,10.8,2,2.2,India,Delhi,Ghaziabad,FedEx,Smoggy
+03-10-2024,15.3,2,3.1,India,Karnataka,Belgaum,DHL,Cloudy
+03-11-2024,112.4,4,15.4,India,West Bengal,Asansol,Gati,Clear
+03-12-2024,7.2,2,1.8,India,Telangana,Nizamabad,FirstFlight,Rainy
+03-13-2024,156.7,4,20.1,India,Rajasthan,Bikaner,Delhivery,Sunny
+03-14-2024,5.8,1,1.4,India,Gujarat,Bhavnagar,SpeedPost,Hot
+03-15-2024,78.5,3,11.2,India,Madhya Pradesh,Gwalior,XpressBees,Foggy
+03-16-2024,15.7,2,3.3,India,Jammu and Kashmir,Jammu,BlueDart,Snowy
+03-17-2024,92.7,3,13.5,India,Tamil Nadu,Erode,Ekart,Clear
+03-18-2024,13.4,2,2.8,India,Himachal Pradesh,Dharamshala,DTDC,Cloudy
+03-19-2024,263.8,4,32.4,India,Karnataka,Davanagere,Gati,Rainy
+03-20-2024,10.9,2,2.1,India,Delhi,Noida,FedEx,Smoggy
+03-21-2024,189.2,4,22.8,India,Bihar,Muzzafarpur,Ecom Express,Humid
+03-22-2024,97.4,4,13.4,India,West Bengal,Siliguri,SpeedPost,Foggy
+03-23-2024,1.9,1,0.6,India,Telangana,Karimnagar,Aramex,Dusty
+03-24-2024,239.8,4,28.9,India,Gujarat,Jamnagar,BlueDart,Clear
+03-25-2024,8.3,2,1.9,India,Odisha,Rourkela,DTDC,Hot
+03-26-2024,28.4,3,4.3,India,Karnataka,Kolar,XpressBees,Rainy
+03-27-2024,16.1,2,3,India,Madhya Pradesh,Ujjain,Gati,Cloudy
+03-28-2024,112.8,4,15.6,India,Rajasthan,Ajmer,FedEx,Sunny
+03-29-2024,63.4,3,9.5,India,Gujarat,Rajkot,Ekart,Humid
+03-30-2024,43.2,3,7.4,India,Punjab,Amritsar,Delhivery,Clear
+03-31-2024,138.7,4,17.3,India,Tamil Nadu,Vellore,TCI Express,Foggy
+04-01-2024,1.5,1,0.5,India,Haryana,Gurgaon,SpeedPost,Smoggy
+04-02-2024,25.3,3,3.9,India,Uttar Pradesh,Meerut,FedEx,Dusty
+04-03-2024,298.6,4,36.1,India,West Bengal,Kharagpur,BlueDart,Cloudy
+04-04-2024,15.4,2,3.2,India,Karnataka,Mangalore,Aramex,Hot
+04-05-2024,27.8,3,4,India,Maharashtra,Sangli,Gati,Clear
+04-06-2024,76.3,4,11.9,India,Bihar,Purnea,FirstFlight,Foggy
+04-07-2024,9.6,2,1.8,India,Delhi,Faridabad,XpressBees,Sunny
+04-08-2024,5.7,1,1.2,India,Odisha,Balangir,Delhivery,Humid
+04-09-2024,124.5,4,16.8,India,Kerala,Palakkad,Ekart,Rainy
+04-10-2024,51.2,3,7.5,India,Tamil Nadu,Salem,SpeedPost,Smoggy
+04-11-2024,14.7,2,2.9,India,Gujarat,Gandhinagar,DHL,Cloudy
+04-12-2024,81.3,4,12.1,India,West Bengal,Malda,BlueDart,Clear
+04-13-2024,52.8,3,8.4,India,Haryana,Hisar,FedEx,Sunny
+04-14-2024,21.9,3,3.7,India,Tamil Nadu,Thanjavur,Aramex,Rainy
+04-15-2024,147.4,4,19,India,Madhya Pradesh,Burhanpur,Trackon,Foggy
+04-16-2024,2.1,1,0.7,India,Assam,Tezpur,Ecom Express,Humid
+04-17-2024,17.4,2,3.3,India,Himachal Pradesh,Solan,Gati,Snowy
+04-18-2024,40.9,3,6.5,India,Goa,Vasco da Gama,Delhivery,Hot
+04-19-2024,275.1,4,33,India,Rajasthan,Jaisalmer,XpressBees,Clear
+04-20-2024,8.9,2,2,India,Jharkhand,Dhanbad,DHL,Rainy
+04-21-2024,94.6,4,13.8,India,Odisha,Cuttack,FirstFlight,Sunny
+04-22-2024,1.7,1,0.5,India,Punjab,Bathinda,FedEx,Smoggy
+04-23-2024,115.7,4,15.8,India,Madhya Pradesh,Katni,BlueDart,Foggy
+04-24-2024,43.5,3,7.3,India,Karnataka,Bellary,SpeedPost,Humid
+04-25-2024,29.1,3,4.4,India,Delhi,New Delhi,Delhivery,Clear
+04-26-2024,17.3,2,3.1,India,Rajasthan,Bharatpur,Trackon,Cloudy
+04-27-2024,48.7,3,7.9,India,Kerala,Kollam,Gati,Sunny
+04-28-2024,13.1,2,2.7,India,Uttar Pradesh,Aligarh,Aramex,Rainy
+04-29-2024,89.3,4,13.1,India,Tamil Nadu,Thoothukudi,DHL,Clear
+04-30-2024,65.7,3,9.7,India,West Bengal,Siliguri,FedEx,Humid
