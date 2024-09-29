@@ -15,6 +15,7 @@ const DeliveryTimeEstimator = () => {
   const [isDataUploaded, setIsDataUploaded] = useState(false);
   const [explanation, setExplanation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [modelAccuracy, setModelAccuracy] = useState(null);
 
   useEffect(() => {
     fetchUniqueValues();
@@ -49,6 +50,7 @@ const DeliveryTimeEstimator = () => {
       });
       setEstimatedTime(response.data.estimated_time);
       setExplanation(response.data.explanation);
+      setModelAccuracy(response.data.model_accuracy);
       toast.success("Delivery time estimated successfully!");
     } catch (error) {
       console.error("Error estimating delivery time:", error);
@@ -68,9 +70,10 @@ const DeliveryTimeEstimator = () => {
       const formData = new FormData();
       formData.append("file", file);
       try {
-        await axios.post("http://localhost:8000/upload-data", formData, {
+        const response = await axios.post("http://localhost:8000/upload-data", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        setModelAccuracy(response.data.model_accuracy);
         toast.success("Data uploaded and model trained successfully!");
         setIsDataUploaded(true);
       } catch (error) {
@@ -106,6 +109,16 @@ const DeliveryTimeEstimator = () => {
           "
         />
       </div>
+      {modelAccuracy !== null && (
+        <div className="mt-6 p-4 bg-blue-100 rounded-lg">
+          <h3 className="text-xl font-semibold text-blue-800">
+            Model Accuracy:
+          </h3>
+          <p className="text-2xl font-bold text-blue-900">
+            {(modelAccuracy * 100).toFixed(2)}%
+          </p>
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Distance input */}
         <div>

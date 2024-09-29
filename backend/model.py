@@ -25,6 +25,7 @@ class DeliveryTimeEstimationTool:
         self.weather_condition_encoder = None
         self.delivery_service_encoder = None
         self.unique_values = {}
+        self.current_accuracy = None
 
     def load_data(self, data):
         self.data = data
@@ -74,6 +75,7 @@ class DeliveryTimeEstimationTool:
         y_pred = self.model.predict(X_test)
         accuracy = 1 - mean_absolute_error(y_test, y_pred) / np.mean(y_test)
         self.accuracy_history.append(accuracy)
+        self.current_accuracy = accuracy  # Store the current accuracy
 
         print(f"Model trained. Current accuracy: {accuracy:.2%}")
 
@@ -118,3 +120,6 @@ class DeliveryTimeEstimationTool:
 
     def get_unique_values(self):
         return self.unique_values
+
+    def get_current_accuracy(self):
+        return self.current_accuracy

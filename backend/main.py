@@ -45,6 +45,7 @@ class PredictionInput(BaseModel):
 class PredictionOutput(BaseModel):
     estimated_time: float
     explanation: str
+    model_accuracy: float  # Add this line
 
 @app.post("/upload-data")
 async def upload_data(file: UploadFile = File(...)):
@@ -75,7 +76,11 @@ async def upload_data(file: UploadFile = File(...)):
         tool.preprocess_data()
         tool.train_model()
 
-        return {"message": "Data uploaded and model trained successfully"}
+        return {
+            "message": "Data uploaded and model trained successfully",
+            "model_accuracy": tool.get_current_accuracy()
+        }
+
     except pd.errors.EmptyDataError:
         raise HTTPException(status_code=400, detail="The uploaded file is empty")
     except pd.errors.ParserError as e:
@@ -109,7 +114,11 @@ async def predict(input_data: PredictionInput):
         explanation = generate_explanation(input_data, prediction)
         print(explanation)
         
-        return PredictionOutput(estimated_time=prediction, explanation=explanation)
+        return PredictionOutput(
+            estimated_time=prediction,
+            explanation=explanation,
+            model_accuracy=tool.get_current_accuracy()  # Add this line
+        )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
