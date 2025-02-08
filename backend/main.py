@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel,ConfigDict
 import os
 import pandas as pd
 from io import StringIO
@@ -14,10 +14,10 @@ load_dotenv()
 app = FastAPI()
 
 # Load your Anthropic API key
-anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+# anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 
-if not anthropic_api_key:
-    raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
+# if not anthropic_api_key:
+#     raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
 
 # Add CORS middleware
 app.add_middleware(
@@ -32,7 +32,7 @@ app.add_middleware(
 tool = DeliveryTimeEstimationTool()
 
 # Initialize the Anthropic client
-client = Anthropic(api_key=anthropic_api_key)
+# client = Anthropic(api_key=anthropic_api_key)
 
 class PredictionInput(BaseModel):
     distance: float
@@ -44,8 +44,9 @@ class PredictionInput(BaseModel):
 
 class PredictionOutput(BaseModel):
     estimated_time: float
-    explanation: str
     model_accuracy: float  # Add this line
+
+    model_config = ConfigDict(protected_namespaces=())
 
 @app.post("/upload-data")
 async def upload_data(file: UploadFile = File(...)):
@@ -111,12 +112,11 @@ async def predict(input_data: PredictionInput):
         )
         
         # Generate explanation using OpenAI
-        explanation = generate_explanation(input_data, prediction)
-        print(explanation)
+        # explanation = generate_explanation(input_data, prediction)
+        # print(explanation)
         
         return PredictionOutput(
             estimated_time=prediction,
-            explanation=explanation,
             model_accuracy=tool.get_current_accuracy()  # Add this line
         )
     except ValueError as e:
@@ -126,33 +126,33 @@ async def predict(input_data: PredictionInput):
             status_code=500, detail=f"An unexpected error occurred: {str(e)}"
         )
 
-def generate_explanation(input_data: PredictionInput, prediction: float) -> str:
-    prompt = f"""
-    Explain why a delivery with the following characteristics would take approximately {prediction:.2f} hours:
-    - Distance: {input_data.distance} km
-    - Package Size: {input_data.package_size}
-    - Day of Week: {input_data.day_of_week}
-    - Location: {input_data.location}
-    - Weather Condition: {input_data.weather_condition}
-    - Delivery Service: {input_data.delivery_service}
+# def generate_explanation(input_data: PredictionInput, prediction: float) -> str:
+#     prompt = f"""
+#     Explain why a delivery with the following characteristics would take approximately {prediction:.2f} hours:
+#     - Distance: {input_data.distance} km
+#     - Package Size: {input_data.package_size}
+#     - Day of Week: {input_data.day_of_week}
+#     - Location: {input_data.location}
+#     - Weather Condition: {input_data.weather_condition}
+#     - Delivery Service: {input_data.delivery_service}
 
-    Provide a brief explanation (2-3 sentences) focusing on the most important factors affecting the delivery time.
-    """
+#     Provide a brief explanation (2-3 sentences) focusing on the most important factors affecting the delivery time.
+#     """
 
-    try:
-        response = client.messages.create(
-            model="claude-3-5-sonnet-20240620",
-            max_tokens=150,
-            temperature=0.7,
-            system="You are a helpful assistant that explains delivery time estimates.",
-            messages=[
-                {"role": "user", "content": prompt},
-            ],
-        )
-        return response.content[0].text.strip()
-    except Exception as e:
-        print(f"Error generating explanation: {str(e)}")
-        return "Unable to generate explanation due to an error."
+#     try:
+#         response = client.messages.create(
+#             model="claude-3-5-sonnet-20240620",
+#             max_tokens=150,
+#             temperature=0.7,
+#             system="You are a helpful assistant that explains delivery time estimates.",
+#             messages=[
+#                 {"role": "user", "content": prompt},
+#             ],
+#         )
+#         return response.content[0].text.strip()
+#     except Exception as e:
+#         print(f"Error generating explanation: {str(e)}")
+#         return "Unable to generate explanation due to an error."
 
 @app.get("/unique-values")
 async def get_unique_values():
